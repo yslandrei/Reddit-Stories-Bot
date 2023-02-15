@@ -34,7 +34,8 @@ print('🟢 LOADED API KEYS')
 
 SUBREDDIT = 'AmItheAsshole'
 CATEGORY = '/top' #leave empty if you want the home subreddit page
-MAX_CHARACTERS = 1600 #the maximum of characters a thread and its comments text can contain
+MAX_CHARACTERS = 2000 #the maximum of characters a thread and its comments text can contain
+MAX_COMMENTS = 0 #the maximum of comments a thread can contain
 
 rGenerator = redditGenerator(
     accountData=ACCOUNT_DATA, 
@@ -57,16 +58,17 @@ ttsGenerator = textToSpeechGenerator(
 
 print('🟢 CONNECTED TO MICROSOFT TTS API')
 
+VIDEO_BACKGROUND = 'parkour2'
 
 vEditor = videoEditor(
-    bgFileName='parkour1'
+    bgFileName=VIDEO_BACKGROUND
 )
 
 
 ###TESTING
 
 i = 0
-n = int(input('🟢 How many videos do you want to generate?\n'))
+n = int(input('🟢 How many videos do you want to generate?\n🟢 '))
 
 while(i < n):
 
@@ -77,13 +79,14 @@ while(i < n):
     thread = rGenerator.getThread(
         subreddit=SUBREDDIT, 
         category=CATEGORY, 
-        maxCharacters=MAX_CHARACTERS
+        maxCharacters=MAX_CHARACTERS,
+        maxComments=MAX_COMMENTS
     )
     print('🟢 THREAD PULLED')
 
 
     translatedThread = translateThread(
-        thread=thread, 
+        thread=thread,
         sourceLang='en-US', 
         targetLang='ro'
     )

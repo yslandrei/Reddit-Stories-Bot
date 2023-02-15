@@ -14,11 +14,11 @@ class redditGenerator:
         TOKEN = res.json()['access_token']
         self.__headers['Authorization'] = f'bearer {TOKEN}'
 
-    def getThread(self, subreddit, category, maxCharacters):
+    def getThread(self, subreddit, category, maxCharacters, maxComments):
         res = requests.get(
             f'https://oauth.reddit.com/r/{subreddit}{category}', 
             headers=self.__headers,
-            params={'limit': '50'}
+            params={'limit': '100'}
         )
 
         threadLength = 0
@@ -47,20 +47,23 @@ class redditGenerator:
                 threadLength += len(post['data']['selftext'] + post['data']['title'])
                 
                 thread = {
-                'id': post['data']['name'][3:],
-                'title': post['data']['title'],
-                'text': post['data']['selftext']
+                    'id': post['data']['name'][3:],
+                    'title': post['data']['title'],
+                    'text': post['data']['selftext']
                 }
                 break
 
-            
         
         threadID = thread['id']
         res = requests.get(f'https://oauth.reddit.com/r/{subreddit}/comments/{threadID}', 
                             headers=self.__headers)
         
         thread['comments'] = []
+        commentsNumber = 0
         for comment in res.json()[1]['data']['children']:
+            if commentsNumber >= maxComments:
+                break
+
             if not 'body' in comment['data']:
                 continue
 
@@ -69,20 +72,19 @@ class redditGenerator:
             
             if comment['data']['distinguished'] == 'moderator':
                 continue
-
-            threadLength += len(comment['data']['body'])
-
+            
             thread['comments'].append({
                 'id': comment['data']['name'][3:],
                 'text': comment['data']['body']
             })
 
+            threadLength += len(comment['data']['body'])
             if threadLength > maxCharacters:
                 break
 
         self.replaceAbreviations(thread)
 
-        # testing purposes
+        # # testing purposes
         # thread['text'] = thread['text'][:10]
         # for comment in thread['comments']:
         #     comment['text'] = comment['text'][:10]
