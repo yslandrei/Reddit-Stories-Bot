@@ -62,7 +62,7 @@ def takeScreenshotThread(subreddit, threadID):
         page.goto(f'https://www-reddit-com.translate.goog/r/{subreddit}/comments/{threadID}?_x_tr_sl=en&_x_tr_tl=enUS', timeout=0)
         page.wait_for_load_state()
         time.sleep(1)
-        page.locator('[data-testid="post-container"]').screenshot(path=f'screenshot/output/{threadID}.png')
+        page.locator('[data-test-id="post-content"]').screenshot(path=f'screenshot/output/{threadID}.png')
         browser.close()
 
 def takeScreenshotComment(subreddit, threadID, commentID):
@@ -85,7 +85,7 @@ def takeTranslatedScreenshotThread(subreddit, threadID, sourceLang, targetLang):
         page.goto(f'https://www-reddit-com.translate.goog/r/{subreddit}/comments/{threadID}?_x_tr_sl={sourceLang}&_x_tr_tl={targetLang}', timeout=0)
         page.wait_for_load_state()
         time.sleep(1)
-        page.locator('[data-testid="post-container"]').screenshot(path=f'screenshot/output/{threadID}.png')
+        page.locator('[data-test-id="post-content"]').screenshot(path=f'screenshot/output/{threadID}.png')
         browser.close()
 
 

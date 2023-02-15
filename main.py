@@ -1,3 +1,4 @@
+import os
 import time
 import shutil
 from video.videoEditor import videoEditor
@@ -31,9 +32,9 @@ with open('apiKeys.txt', 'r') as f:
 print('🟢 LOADED API KEYS')
 
 
-SUBREDDIT = 'AskReddit'
-CATEGORY = '/hot' #leave empty if you want the home subreddit page
-MAX_CHARACTERS = 3000 #the maximum of characters a thread and its comments text can contain
+SUBREDDIT = 'AmItheAsshole'
+CATEGORY = '/top' #leave empty if you want the home subreddit page
+MAX_CHARACTERS = 1600 #the maximum of characters a thread and its comments text can contain
 
 rGenerator = redditGenerator(
     accountData=ACCOUNT_DATA, 
@@ -65,12 +66,13 @@ vEditor = videoEditor(
 ###TESTING
 
 i = 0
-n = int(input('How many videos do you want to generate?\n'))
+n = int(input('🟢 How many videos do you want to generate?\n'))
 
 while(i < n):
 
     print('\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n')
     startTime = time.time()
+    
 
     thread = rGenerator.getThread(
         subreddit=SUBREDDIT, 
@@ -114,7 +116,9 @@ while(i < n):
     #DELETING USELESS FILES
     shutil.rmtree('audio/output')
     shutil.rmtree('screenshot/output')
-
+    os.mkdir('audio/output')
+    os.mkdir('screenshot/output')
+  
     i += 1
 
 

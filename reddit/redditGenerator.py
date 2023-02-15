@@ -18,7 +18,7 @@ class redditGenerator:
         res = requests.get(
             f'https://oauth.reddit.com/r/{subreddit}{category}', 
             headers=self.__headers,
-            params={'limit': '10'}
+            params={'limit': '50'}
         )
 
         threadLength = 0
@@ -28,6 +28,9 @@ class redditGenerator:
                 continue
 
             if post['data']['distinguished'] == 'moderator':
+                continue
+
+            if post['data']['over_18'] == True:
                 continue
             
             alreadyUsed = False
@@ -40,16 +43,17 @@ class redditGenerator:
             if alreadyUsed == True:
                 continue  
 
-            threadLength += len(post['data']['selftext'])
-            if threadLength > maxCharacters:
-                break
-
-            thread = {
+            if threadLength + len(post['data']['selftext'] + post['data']['title']) < maxCharacters:
+                threadLength += len(post['data']['selftext'] + post['data']['title'])
+                
+                thread = {
                 'id': post['data']['name'][3:],
                 'title': post['data']['title'],
                 'text': post['data']['selftext']
-            }
-            break
+                }
+                break
+
+            
         
         threadID = thread['id']
         res = requests.get(f'https://oauth.reddit.com/r/{subreddit}/comments/{threadID}', 
@@ -62,18 +66,19 @@ class redditGenerator:
 
             if 'bot' in comment['data']['body'] or 'FAQ' in comment['data']['body']:
                 continue
-
-            if post['data']['distinguished'] == 'moderator':
+            
+            if comment['data']['distinguished'] == 'moderator':
                 continue
 
             threadLength += len(comment['data']['body'])
-            if threadLength > maxCharacters:
-                break
 
             thread['comments'].append({
                 'id': comment['data']['name'][3:],
                 'text': comment['data']['body']
             })
+
+            if threadLength > maxCharacters:
+                break
 
         self.replaceAbreviations(thread)
 
@@ -87,13 +92,25 @@ class redditGenerator:
     def replaceAbreviations(self, thread):
         # bastard = nenorocit (translation problems)
         thread['title'] = thread['title'].replace('AITA', 'Am i the bastard')
+        thread['title'] = thread['title'].replace('Aita', 'Am i the bastard')
         thread['title'] = thread['title'].replace('WIBTA', 'Would i be the bastard')
+        thread['title'] = thread['title'].replace('Wibta', 'Would i be the bastard')
         thread['text'] = thread['text'].replace('AITA', 'Am i the bastard')
+        thread['text'] = thread['text'].replace('Aita', 'Am i the bastard')
         thread['text'] = thread['text'].replace('WIBTA', 'Would i be the bastard')
+        thread['text'] = thread['text'].replace('Wibta', 'Would i be the bastard')
         
         for comment in thread['comments']:
             comment['text'] = comment['text'].replace('YTA', 'You are the bastard.')
+            comment['text'] = comment['text'].replace('TA', 'You are the bastard.')
+            comment['text'] = comment['text'].replace('Ta', 'You are the bastard.')
+            comment['text'] = comment['text'].replace('Yta', 'You are the bastard.')
             comment['text'] = comment['text'].replace('YNTA', 'You are not the bastard.')
+            comment['text'] = comment['text'].replace('Ynta', 'You are not the bastard.')
+            comment['text'] = comment['text'].replace('NTA', 'You are not the bastard.')
+            comment['text'] = comment['text'].replace('Nta', 'You are not the bastard.')
+
+
 
 
    
