@@ -43,4 +43,4 @@ class textToSpeechGenerator:
         finalAudioClip = concatenate_audioclips(audioClips)
         finalAudioClip.write_audiofile(f'audio/output/{threadID}.mp3')
 
-        return threadAudioTime
+        return finalAudioClip.duration, threadAudioTime

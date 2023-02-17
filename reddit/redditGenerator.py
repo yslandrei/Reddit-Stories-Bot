@@ -34,6 +34,16 @@ class redditGenerator:
                 continue
             
             alreadyUsed = False
+            for fileName in os.listdir('audio/output'):
+                threadID = post['data']['name'][3:]
+                if fileName == f'{threadID}.mp3':
+                    alreadyUsed = True
+                    break
+
+            if alreadyUsed == True:
+                continue  
+
+            alreadyUsed = False
             for fileName in os.listdir('video/export'):
                 threadID = post['data']['name'][3:]
                 if fileName == f'{threadID}.mp4':
@@ -93,24 +103,16 @@ class redditGenerator:
 
     def replaceAbreviations(self, thread):
         # bastard = nenorocit (translation problems)
-        thread['title'] = thread['title'].replace('AITA', 'Am i the bastard')
-        thread['title'] = thread['title'].replace('Aita', 'Am i the bastard')
-        thread['title'] = thread['title'].replace('WIBTA', 'Would i be the bastard')
-        thread['title'] = thread['title'].replace('Wibta', 'Would i be the bastard')
-        thread['text'] = thread['text'].replace('AITA', 'Am i the bastard')
-        thread['text'] = thread['text'].replace('Aita', 'Am i the bastard')
-        thread['text'] = thread['text'].replace('WIBTA', 'Would i be the bastard')
-        thread['text'] = thread['text'].replace('Wibta', 'Would i be the bastard')
+        thread['title'] = thread['title'].lower().replace('aita', 'Am i the asshole')
+        thread['title'] = thread['title'].lower().replace('wibta', 'Would i be the asshole')
+        thread['text'] = thread['text'].lower().replace('aita', 'Am i the asshole')
+        thread['text'] = thread['text'].lower().replace('wibta', 'Would i be the asshole')
         
         for comment in thread['comments']:
-            comment['text'] = comment['text'].replace('YTA', 'You are the bastard.')
-            comment['text'] = comment['text'].replace('TA', 'You are the bastard.')
-            comment['text'] = comment['text'].replace('Ta', 'You are the bastard.')
-            comment['text'] = comment['text'].replace('Yta', 'You are the bastard.')
-            comment['text'] = comment['text'].replace('YNTA', 'You are not the bastard.')
-            comment['text'] = comment['text'].replace('Ynta', 'You are not the bastard.')
-            comment['text'] = comment['text'].replace('NTA', 'You are not the bastard.')
-            comment['text'] = comment['text'].replace('Nta', 'You are not the bastard.')
+            comment['text'] = comment['text'].lower().replace('yta', 'You are the asshole.')
+            comment['text'] = comment['text'].lower().replace('ynta', 'You are not the asshole.')
+            comment['text'] = comment['text'].lower().replace('ta', 'You are the asshole.')
+            comment['text'] = comment['text'].lower().replace('nta', 'You are not the asshole.')
 
 
 

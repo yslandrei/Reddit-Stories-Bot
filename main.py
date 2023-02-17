@@ -1,14 +1,10 @@
-import os
-import time
-import shutil
+import os, time, shutil
 from video.videoEditor import videoEditor
 from reddit.redditGenerator import redditGenerator
 from audio.textToSpeechGenerator import textToSpeechGenerator
 from translate.translate import translateThread
 from screenshot.screenshotGenerator import takeScreenShots, takeTranslatedScreenShots
-
-
-print('\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n')
+from upload.uploadToYoutube import uploadToYoutube
 
 
 with open('apiKeys.txt', 'r') as f:
@@ -32,10 +28,11 @@ with open('apiKeys.txt', 'r') as f:
 print('🟢 LOADED API KEYS')
 
 
-SUBREDDIT = 'AmItheAsshole'
+SUBREDDIT = 'offmychest'
 CATEGORY = '/top' #leave empty if you want the home subreddit page
-MAX_CHARACTERS = 2000 #the maximum of characters a thread and its comments text can contain
+MAX_CHARACTERS = 1000 #the maximum of characters a thread and its comments text can contain
 MAX_COMMENTS = 0 #the maximum of comments a thread can contain
+MAX_DURATION = 60
 
 rGenerator = redditGenerator(
     accountData=ACCOUNT_DATA, 
@@ -47,7 +44,7 @@ rGenerator = redditGenerator(
 print('🟢 CONNECTED TO REDDIT API')
 
 
-VOICE_NAME = 'ro-RO-EmilNeural'
+VOICE_NAME = 'en-US-BrandonNeural'
 
 ttsGenerator = textToSpeechGenerator(
     speechKey=SPEECH_KEY,
@@ -70,38 +67,49 @@ vEditor = videoEditor(
 i = 0
 n = int(input('🟢 How many videos do you want to generate?\n🟢 '))
 
-while(i < n):
+while i < n:
 
-    print('\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n')
+    print()
     startTime = time.time()
     
+    duration = MAX_DURATION
+    while not duration < MAX_DURATION:
 
-    thread = rGenerator.getThread(
-        subreddit=SUBREDDIT, 
-        category=CATEGORY, 
-        maxCharacters=MAX_CHARACTERS,
-        maxComments=MAX_COMMENTS
-    )
-    print('🟢 THREAD PULLED')
-
-
-    translatedThread = translateThread(
-        thread=thread,
-        sourceLang='en-US', 
-        targetLang='ro'
-    )
-    print('🟢 THREAD TRANSLATED')
+        thread = rGenerator.getThread(
+            subreddit=SUBREDDIT, 
+            category=CATEGORY, 
+            maxCharacters=MAX_CHARACTERS,
+            maxComments=MAX_COMMENTS
+        )
+        print('🟢 THREAD PULLED')
 
 
-    threadAudioTime = ttsGenerator.generateAudio(thread=translatedThread)
+        # translatedThread = translateThread(
+        #     thread=thread,
+        #     sourceLang='en-US', 
+        #     targetLang='ro'
+        # )
+        # print('🟢 THREAD TRANSLATED')
+
+
+        duration, threadAudioTime = ttsGenerator.generateAudio(thread=thread)
+        
+        if duration >= MAX_DURATION:
+            print('🔴 THREAD DURATION TOO LONG')
+
     print('🟢 TTS GENERATED')
 
 
-    takeTranslatedScreenShots(
+    # takeTranslatedScreenShots(
+    #     subreddit=SUBREDDIT,
+    #     thread=thread,
+    #     sourceLang='en',
+    #     targetLang='ro'
+    # )
+
+    takeScreenShots(
         subreddit=SUBREDDIT,
-        thread=thread,
-        sourceLang='en',
-        targetLang='ro'
+        thread=thread
     )
     print('🟢 SCREENSHOTS GENERATED')
 
@@ -114,6 +122,9 @@ while(i < n):
     threadID = thread['id']
     print(f'🟢 [{threadID}.mp4] EXPORTED IN {int(time.time() - startTime)} SECONDS')
 
+
+    uploadToYoutube(thread['id'])
+    print('🟢 VIDEO UPLOADED')
 
 
     #DELETING USELESS FILES

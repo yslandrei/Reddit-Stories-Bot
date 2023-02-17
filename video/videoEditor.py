@@ -29,7 +29,7 @@ class videoEditor:
         screenshot = (ImageClip(f'screenshot/output/{threadID}.png')
             .set_start(lastAudioTime)
             .set_duration(threadAudioTime[threadID])
-            .resize(width=self.__video.w * 0.8)
+            .resize(width=self.__video.w * 0.75)
         )
         centerW = ((self.__video.w - screenshot.w) / 2)
         centerH = (self.__video.h - screenshot.h) / 2
@@ -45,7 +45,7 @@ class videoEditor:
             screenshot = (ImageClip(f'screenshot/output/{threadID}_{commentID}.png')
                 .set_start(lastAudioTime)
                 .set_duration(threadAudioTime[commentID])
-                .resize(width=self.__video.w * 0.8)
+                .resize(width=self.__video.w * 0.75)
             )
             centerW = ((self.__video.w - screenshot.w) / 2)
             centerH = (self.__video.h - screenshot.h) / 2
