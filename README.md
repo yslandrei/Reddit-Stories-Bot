@@ -1,4 +1,5 @@
 # Description
+
 A Python bot that generates Reddit Story Videos and automatically posts them on TikTok / Youtube Shorts. The script pulls threads from a given subreddit, adds Text-To-Speech, and edits them into short videos over some gameplay footage.
 
 # How it works
@@ -11,6 +12,7 @@ A Python bot that generates Reddit Story Videos and automatically posts them on 
 * Posts the video using **Selenium**
 
 # How to use it
+
 If you wish to use this bot on your machine, you will need to get your own API keys from Reddit, Microsoft Azure and Google Cloud and put them in a file called apiKeys(check the code in main.py for formatting). Also, you will need to update the path of your Chrome Beta browser in the upload functions. Once you do that you need you will need to install:
 * Mutagen
 * MoviePy
@@ -19,3 +21,8 @@ If you wish to use this bot on your machine, you will need to get your own API k
 * Google-Cloud
 * Selenium
 * Webdriver_Manager
+
+# Result
+
+https://user-images.githubusercontent.com/7760397/219971594-cf417e70-e092-44f2-b3e8-4d8442d5c288.mp4
+
