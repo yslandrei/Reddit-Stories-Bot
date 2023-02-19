@@ -5,6 +5,8 @@ from audio.textToSpeechGenerator import textToSpeechGenerator
 from translate.translate import translateThread
 from screenshot.screenshotGenerator import takeScreenShots, takeTranslatedScreenShots
 from upload.uploadToYoutube import uploadToYoutube
+from upload.uploadToTikTok import uploadToTikTok
+
 
 
 with open('apiKeys.txt', 'r') as f:
@@ -28,11 +30,12 @@ with open('apiKeys.txt', 'r') as f:
 print('🟢 LOADED API KEYS')
 
 
-SUBREDDIT = 'offmychest'
-CATEGORY = '/top' #leave empty if you want the home subreddit page
-MAX_CHARACTERS = 1000 #the maximum of characters a thread and its comments text can contain
-MAX_COMMENTS = 0 #the maximum of comments a thread can contain
-MAX_DURATION = 60
+SUBREDDIT = 'CasualRO'
+CATEGORY = '/search?q=flair_name%3A"%3Arelatie%3A%20Dragoste%20și%20Relații"' # leave empty if you want the home subreddit page
+MAX_CHARACTERS = 3000 # maximum of characters a thread and its comments text can contain
+MAX_COMMENTS = 0 # maximum of comments a thread can contain
+MIN_DURATION = 60 # minimum of seconds a thread audio can contain
+MAX_DURATION = 180 # maximum of seconds a thread audio can contain
 
 rGenerator = redditGenerator(
     accountData=ACCOUNT_DATA, 
@@ -44,7 +47,10 @@ rGenerator = redditGenerator(
 print('🟢 CONNECTED TO REDDIT API')
 
 
-VOICE_NAME = 'en-US-BrandonNeural'
+VOICE_NAME = 'ro-RO-EmilNeural'
+#ro-RO-EmilNeural - Romanian
+#en-US-BrandonNeural - English
+
 
 ttsGenerator = textToSpeechGenerator(
     speechKey=SPEECH_KEY,
@@ -56,10 +62,6 @@ ttsGenerator = textToSpeechGenerator(
 print('🟢 CONNECTED TO MICROSOFT TTS API')
 
 VIDEO_BACKGROUND = 'parkour2'
-
-vEditor = videoEditor(
-    bgFileName=VIDEO_BACKGROUND
-)
 
 
 ###TESTING
@@ -73,7 +75,7 @@ while i < n:
     startTime = time.time()
     
     duration = MAX_DURATION
-    while not duration < MAX_DURATION:
+    while not (duration > MIN_DURATION and duration < MAX_DURATION):
 
         thread = rGenerator.getThread(
             subreddit=SUBREDDIT, 
@@ -94,25 +96,34 @@ while i < n:
 
         duration, threadAudioTime = ttsGenerator.generateAudio(thread=thread)
         
+        print(duration)
+
         if duration >= MAX_DURATION:
             print('🔴 THREAD DURATION TOO LONG')
+
+        if duration <= MIN_DURATION:
+            print('🔴 THREAD DURATION TOO SHORT')
 
     print('🟢 TTS GENERATED')
 
 
-    # takeTranslatedScreenShots(
-    #     subreddit=SUBREDDIT,
-    #     thread=thread,
-    #     sourceLang='en',
-    #     targetLang='ro'
-    # )
-
-    takeScreenShots(
+    takeTranslatedScreenShots(
         subreddit=SUBREDDIT,
-        thread=thread
+        thread=thread,
+        sourceLang='slbz',
+        targetLang='ro'
     )
+
+    # takeScreenShots(
+    #     subreddit=SUBREDDIT,
+    #     thread=thread
+    # )
     print('🟢 SCREENSHOTS GENERATED')
 
+
+    vEditor = videoEditor(
+        bgFileName=VIDEO_BACKGROUND
+    )
 
     vEditor.setAspectRatio(wRatio=9, hRatio=16)
     vEditor.mergeWithAudio(audioFileName=thread['id'])
@@ -123,7 +134,7 @@ while i < n:
     print(f'🟢 [{threadID}.mp4] EXPORTED IN {int(time.time() - startTime)} SECONDS')
 
 
-    uploadToYoutube(thread['id'])
+    uploadToTikTok(thread['id'])
     print('🟢 VIDEO UPLOADED')
 
 

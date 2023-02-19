@@ -23,8 +23,8 @@ def uploadToYoutube(threadID):
     time.sleep(3)
 
     path = f'video/export/{threadID}.mp4'
-    fileInput = bot.find_element(By.XPATH, '//*[@id="content"]/input')    
-    fileInput.send_keys(os.path.abspath(path))
+    fileUploader = bot.find_element(By.XPATH, '//*[@id="content"]/input')    
+    fileUploader.send_keys(os.path.abspath(path))
     time.sleep(3)
 
     title = bot.find_element(By.XPATH, '//*[@id="title-textarea"]')
