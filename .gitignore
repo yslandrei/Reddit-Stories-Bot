@@ -1,5 +1,6 @@
 *.mp3
 *.mp4
 *.png
+*.pyc
 apiKeys.txt
 __pycache__/
