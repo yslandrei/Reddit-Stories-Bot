@@ -103,16 +103,16 @@ class redditGenerator:
 
     def replaceAbreviations(self, thread):
         # bastard = nenorocit (translation problems)
-        thread['title'] = thread['title'].lower().replace('aita', 'Am i the asshole')
-        thread['title'] = thread['title'].lower().replace('wibta', 'Would i be the asshole')
-        thread['text'] = thread['text'].lower().replace('aita', 'Am i the asshole')
-        thread['text'] = thread['text'].lower().replace('wibta', 'Would i be the asshole')
+        thread['title'] = thread['title'].lower().replace('aita', 'Am i the bastard')
+        thread['title'] = thread['title'].lower().replace('wibta', 'Would i be the bastard')
+        thread['text'] = thread['text'].lower().replace('aita', 'Am i the bastard')
+        thread['text'] = thread['text'].lower().replace('wibta', 'Would i be the bastard')
         
         for comment in thread['comments']:
-            comment['text'] = comment['text'].lower().replace('yta', 'You are the asshole.')
-            comment['text'] = comment['text'].lower().replace('ynta', 'You are not the asshole.')
-            comment['text'] = comment['text'].lower().replace('ta', 'You are the asshole.')
-            comment['text'] = comment['text'].lower().replace('nta', 'You are not the asshole.')
+            comment['text'] = comment['text'].lower().replace('yta', 'You are the bastard.')
+            comment['text'] = comment['text'].lower().replace('ynta', 'You are not the bastard.')
+            comment['text'] = comment['text'].lower().replace('ta', 'You are the bastard.')
+            comment['text'] = comment['text'].lower().replace('nta', 'You are not the bastard.')
 
 
 

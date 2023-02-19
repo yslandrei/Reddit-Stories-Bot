@@ -2,3 +2,4 @@
 *.mp4
 *.png
 apiKeys.txt
+__pycache__/

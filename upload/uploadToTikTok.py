@@ -31,7 +31,7 @@ def uploadToTikTok(threadID):
 
     caption = bot.find_element(By.XPATH, '//body[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[2]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/span[1]')
     caption.send_keys('#povesti #reddit #povestireddit #fyp #askreddit #romania')
-    time.sleep(10)
+    time.sleep(15)
 
     post = bot.find_element(By.XPATH, '//body[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[2]/div[8]/div[2]/button[1]')
     post.click()

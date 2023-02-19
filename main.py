@@ -8,6 +8,21 @@ from upload.uploadToYoutube import uploadToYoutube
 from upload.uploadToTikTok import uploadToTikTok
 
 
+VIDEO_BACKGROUND = 'parkour2'
+
+
+VOICE_NAME = 'ro-RO-EmilNeural'
+#ro-RO-EmilNeural - Romanian
+#en-US-BrandonNeural - English
+
+
+SUBREDDIT = 'AmItheAsshole'
+CATEGORY = '/top' # leave empty if you want the home subreddit page
+MAX_CHARACTERS = 3000 # maximum of characters a thread and its comments text can contain
+MAX_COMMENTS = 0 # maximum of comments a thread can contain
+MIN_DURATION = 60 # minimum of seconds a thread audio can contain
+MAX_DURATION = 180 # maximum of seconds a thread audio can contain
+
 
 with open('apiKeys.txt', 'r') as f:
     lines = []
@@ -30,26 +45,13 @@ with open('apiKeys.txt', 'r') as f:
 print('🟢 LOADED API KEYS')
 
 
-SUBREDDIT = 'CasualRO'
-CATEGORY = '/search?q=flair_name%3A"%3Arelatie%3A%20Dragoste%20și%20Relații"' # leave empty if you want the home subreddit page
-MAX_CHARACTERS = 3000 # maximum of characters a thread and its comments text can contain
-MAX_COMMENTS = 0 # maximum of comments a thread can contain
-MIN_DURATION = 60 # minimum of seconds a thread audio can contain
-MAX_DURATION = 180 # maximum of seconds a thread audio can contain
-
 rGenerator = redditGenerator(
     accountData=ACCOUNT_DATA, 
     clientID=CLIENT_ID, 
     redditApiKey=REDDIT_API_KEY
 )
 
-
 print('🟢 CONNECTED TO REDDIT API')
-
-
-VOICE_NAME = 'ro-RO-EmilNeural'
-#ro-RO-EmilNeural - Romanian
-#en-US-BrandonNeural - English
 
 
 ttsGenerator = textToSpeechGenerator(
@@ -58,20 +60,15 @@ ttsGenerator = textToSpeechGenerator(
     voiceName=VOICE_NAME
 )
 
-
 print('🟢 CONNECTED TO MICROSOFT TTS API')
 
-VIDEO_BACKGROUND = 'parkour2'
-
-
-###TESTING
 
 i = 0
 n = int(input('🟢 How many videos do you want to generate?\n🟢 '))
 
 while i < n:
 
-    print()
+    print('\n')
     startTime = time.time()
     
     duration = MAX_DURATION
@@ -86,12 +83,12 @@ while i < n:
         print('🟢 THREAD PULLED')
 
 
-        # translatedThread = translateThread(
-        #     thread=thread,
-        #     sourceLang='en-US', 
-        #     targetLang='ro'
-        # )
-        # print('🟢 THREAD TRANSLATED')
+        translatedThread = translateThread(
+            thread=thread,
+            sourceLang='en-US', 
+            targetLang='ro'
+        )
+        print('🟢 THREAD TRANSLATED')
 
 
         duration, threadAudioTime = ttsGenerator.generateAudio(thread=thread)
@@ -110,7 +107,7 @@ while i < n:
     takeTranslatedScreenShots(
         subreddit=SUBREDDIT,
         thread=thread,
-        sourceLang='slbz',
+        sourceLang='en',
         targetLang='ro'
     )
 

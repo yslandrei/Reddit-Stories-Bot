@@ -35,7 +35,7 @@ def takeTranslatedScreenShots(subreddit, thread, sourceLang, targetLang):
     )
 
 def initScreenshot(p):
-    browser = p.chromium.launch(headless=False, slow_mo=0)
+    browser = p.chromium.launch(headless=True, slow_mo=0)
 
     context = browser.new_context(
         locale="en-us",
