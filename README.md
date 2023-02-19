@@ -22,8 +22,7 @@ If you wish to use this bot on your machine, you will need to get your own API k
 * Selenium
 * Webdriver_Manager
 
-# Result
+# Results
 
-
-[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/Q1S5Y7YNJBo/0.jpg)](https://www.youtube.com/watch?v=Q1S5Y7YNJBo)
+Here's the YouTube account I've created for debugging purposes. I have a couple of videos posted by this bot: https://www.youtube.com/channel/UCmGF6uTQonj45WmMA5CuU3Q
 
