@@ -13,7 +13,7 @@ A Python bot that generates Reddit Story Videos and automatically posts them on 
 
 # How to use it
 
-If you wish to use this bot on your machine, you will need to get your own API keys from Reddit, Microsoft Azure and Google Cloud and put them in a file called apiKeys(check the code in main.py for formatting). Also, you will need to update the path of your Chrome Beta browser in the upload functions. Once you do that you need you will need to install:
+If you wish to use this bot on your machine, you will need to get your own API keys from Reddit, Microsoft Azure and Google Cloud and put them in a file called apiKeys(check the code in main.py for formatting). Also, you will need to update the path of your Chrome Beta browser in the upload functions. Once you do that you will need to install:
 * Mutagen
 * MoviePy
 * Azure.Cognitiveservices.Speech
