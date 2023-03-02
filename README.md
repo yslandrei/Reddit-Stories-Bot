@@ -24,5 +24,9 @@ If you wish to use this bot on your machine, you will need to get your own API k
 
 # Results
 
-Here's the YouTube account I've created for debugging purposes. I have a couple of videos posted by this bot: https://www.youtube.com/channel/UCmGF6uTQonj45WmMA5CuU3Q
+Here's an video created by this bot:
+
+https://user-images.githubusercontent.com/7760397/222569910-dffc1684-ac31-49be-b2da-065068e225aa.mp4
+
+
 
