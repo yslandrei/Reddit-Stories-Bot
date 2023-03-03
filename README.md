@@ -24,7 +24,7 @@ If you wish to use this bot on your machine, you will need to get your own API k
 
 # Results
 
-Here's an video created by this bot:
+Here's a video created by this bot:
 
 
 https://user-images.githubusercontent.com/7760397/222571103-422ca8f9-6178-4129-8d6b-32cf7363aea4.mp4
